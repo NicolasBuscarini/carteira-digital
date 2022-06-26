@@ -68,7 +68,8 @@ builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title
 WebApplication app = builder.Build();
 
 #pragma warning disable S125 // Sections of code should not be commented out
-                            //DatabaseManagementService.MigrationInitialisation(app);
+    //DatabaseManagementService.MigrationInitialisation(app);
+#pragma warning restore S125 // Sections of code should not be commented out
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -77,7 +78,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PokeNetCore v1"));
 }
-#pragma warning restore S125 // Sections of code should not be commented out
 
 app.UseRouting();
 
