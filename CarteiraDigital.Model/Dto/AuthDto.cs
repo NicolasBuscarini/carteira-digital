@@ -40,13 +40,13 @@ public class SignInDto
 
 public class SignUpDto
 {
-    [Required(ErrorMessage = "User Name is required")] public string Username { get; set; }
+    [Required(ErrorMessage = "User Name is required")] public string Username { get; set; } = "username";
 
-    [EmailAddress][Required(ErrorMessage = "Email is required")] public string Email { get; set; }
+    [EmailAddress][Required(ErrorMessage = "Email is required")] public string Email { get; set; } = "email@email.com";
 
-    [Required(ErrorMessage = "PhoneNumber is required")] public string PhoneNumber { get; set; }
+    [Required(ErrorMessage = "PhoneNumber is required")] public string PhoneNumber { get; set; } = "(11)99999-9999";
         
-    [Required(ErrorMessage = "Password is required")] public string Password { get; set; }
+    [Required(ErrorMessage = "Password is required")] public string Password { get; set; } = "123";
 
-    [Required(ErrorMessage = "Password is required")] public string PasswordConfirm { get; set; }
+    [Required(ErrorMessage = "Password is required")] public string PasswordConfirm { get; set; } = "123";
 }

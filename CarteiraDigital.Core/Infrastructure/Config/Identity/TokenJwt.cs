@@ -13,5 +13,5 @@ public class TokenJwt
 
     public DateTime ValidTo => token.ValidTo;
 
-    public string value => new JwtSecurityTokenHandler().WriteToken(token);
+    public string Value => new JwtSecurityTokenHandler().WriteToken(token);
 }

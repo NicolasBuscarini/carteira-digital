@@ -3,7 +3,7 @@ using System.Text;
 
 namespace CarteiraDigital.Core.Infrastructure.Config.Identity;
 
-public class JwtSecurityKey
+public static class JwtSecurityKey
 {
     public static SymmetricSecurityKey Create(string secret)
     {

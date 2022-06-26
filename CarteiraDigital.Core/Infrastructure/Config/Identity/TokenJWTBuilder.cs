@@ -10,7 +10,7 @@ public class TokenJwtBuilder
     private string subject = "";
     private string issuer = "";
     private string audience = "";
-    private readonly Dictionary<string, string> claims = new Dictionary<string, string>();
+    private readonly Dictionary<string, string> claims = new();
     private int expiryInMinutes = 5;
 
     public TokenJwtBuilder AddSecurityKey(SecurityKey securityKey)
@@ -45,7 +45,7 @@ public class TokenJwtBuilder
 
     public TokenJwtBuilder AddClaims(Dictionary<string, string> claims)
     {
-        this.claims.Union(claims);
+        _ = this.claims.Union(claims);
         return this;
     }
 
@@ -74,7 +74,7 @@ public class TokenJwtBuilder
     {
         EnsureArguments();
 
-        var claims = new List<Claim>
+        IEnumerable<Claim> enumerable = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.Sub, subject),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
@@ -83,7 +83,7 @@ public class TokenJwtBuilder
         var token = new JwtSecurityToken(
             issuer: issuer,
             audience: audience,
-            claims: claims,
+            claims: enumerable,
             expires: DateTime.UtcNow.AddMinutes(expiryInMinutes),
             signingCredentials: new SigningCredentials(
                 securityKey,
