@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using PokeNetCore.Impl.Service;
-using PokeNetCore.Interfaces.IService;
+﻿using CarteiraDigital.Core.Interfaces.IService;
+using CarteiraDigital.Core.Service;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CarteiraDigital.Core.Infrastructure.InjecaoDependencia;
 

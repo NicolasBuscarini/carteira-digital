@@ -63,7 +63,7 @@ builder.Services.AddAuthentication(options =>
 ServicesIoc.Config(builder.Services);
 RepositoryIoc.Config(builder.Services);
 
-builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "PokeNetCore", Version = "v1" }); });
+builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "CarteiraDigital", Version = "v1" }); });
 
 WebApplication app = builder.Build();
 
@@ -76,7 +76,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PokeNetCore v1"));
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarteiraDigital v1"));
 }
 
 app.UseRouting();

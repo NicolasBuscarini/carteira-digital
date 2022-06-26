@@ -1,10 +1,9 @@
-﻿using PokeNetCore.Infrastructure.Data.Context;
-using Microsoft.EntityFrameworkCore;
-using CarteiraDigital.Core.Repository;
+﻿using Microsoft.EntityFrameworkCore;
 using CarteiraDigital.Core.Interfaces.IRepository;
 using CarteiraDigital.Model.Domain;
+using CarteiraDigital.Infrastructure.Data.Context;
 
-namespace PokeNetCore.Impl.Repository;
+namespace CarteiraDigital.Core.Repository;
 
 public class UserRepository : GenericRepository<ApplicationUser, Guid>, IUserRepository
 {

@@ -1,7 +1,7 @@
 ﻿using CarteiraDigital.Model.Domain;
 using System.ComponentModel.DataAnnotations;
 
-namespace PokeNetCore.Domain.Models.Dto;
+namespace CarteiraDigital.Model.Dto;
 
 public class AuthDto
 {
@@ -17,9 +17,9 @@ public class SsoDto
 
     public SsoDto(string access_token, ApplicationUser user)
     {
-        this.Access_token = access_token;
-        this.Expiration = DateTime.Now.DayOfWeek;
-        this.User = user;
+        Access_token = access_token;
+        Expiration = DateTime.Now.DayOfWeek;
+        User = user;
     }
 }
 
@@ -45,7 +45,7 @@ public class SignUpDto
     [EmailAddress][Required(ErrorMessage = "Email is required")] public string Email { get; set; } = "email@email.com";
 
     [Required(ErrorMessage = "PhoneNumber is required")] public string PhoneNumber { get; set; } = "(11)99999-9999";
-        
+
     [Required(ErrorMessage = "Password is required")] public string Password { get; set; } = "123";
 
     [Required(ErrorMessage = "Password is required")] public string PasswordConfirm { get; set; } = "123";

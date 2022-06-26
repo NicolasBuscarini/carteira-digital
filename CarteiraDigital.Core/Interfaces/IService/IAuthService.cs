@@ -1,9 +1,7 @@
-﻿
+﻿using CarteiraDigital.Model.Domain;
+using CarteiraDigital.Model.Dto;
 
-using CarteiraDigital.Model.Domain;
-using PokeNetCore.Domain.Models.Dto;
-
-namespace PokeNetCore.Interfaces.IService;
+namespace CarteiraDigital.Core.Interfaces.IService;
 
 public interface IAuthService
 {

@@ -1,10 +1,11 @@
-﻿using PokeNetCore.Domain.Models;
-using PokeNetCore.Interfaces.IService;
+﻿
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PokeNetCore.Domain.Models.Dto;
+using CarteiraDigital.Model.Domain;
+using CarteiraDigital.Core.Interfaces.IService;
+using CarteiraDigital.Model.Dto;
 
-namespace PokeNetCore.Controllers;
+namespace CarteiraDigital.Controllers;
 
 [Authorize]
 [Route("[controller]")]

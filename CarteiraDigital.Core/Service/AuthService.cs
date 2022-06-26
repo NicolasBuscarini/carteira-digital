@@ -1,29 +1,29 @@
-﻿using PokeNetCore.Interfaces.IService;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using PokeNetCore.Domain.Models.Dto;
 using CarteiraDigital.Core.Interfaces.IRepository;
 using CarteiraDigital.Model.Domain;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
+using CarteiraDigital.Model.Dto;
+using CarteiraDigital.Core.Interfaces.IService;
 
-namespace PokeNetCore.Impl.Service;
+namespace CarteiraDigital.Core.Service;
 
 public class AuthService : IAuthService
 {
     private readonly IUserRepository _userRepository;
-    private readonly IPlayerService _playerService;
 
     private readonly IConfiguration _configuration;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public AuthService(IUserRepository userRepository, IPlayerService playerService, IConfiguration configuration, UserManager<ApplicationUser> userManager,
+    public AuthService(IUserRepository userRepository, IConfiguration configuration, UserManager<ApplicationUser> userManager,
         IHttpContextAccessor httpContextAccessor)
     {
         _userRepository = userRepository;
-        _playerService = playerService;
 
         _configuration = configuration;
         _httpContextAccessor = httpContextAccessor;
@@ -75,7 +75,7 @@ public class AuthService : IAuthService
         ApplicationUser? userExists = await _userManager.FindByNameAsync(signUpDto.Username);
         if (userExists != null)
             throw new ArgumentException("Username already exists!");
-        
+
         ApplicationUser user = new()
         {
             SecurityStamp = Guid.NewGuid().ToString(),
@@ -84,20 +84,14 @@ public class AuthService : IAuthService
             PhoneNumber = signUpDto.PhoneNumber
         };
 
-        Guid playerId = await _playerService.CreatePlayer();
-        user.PlayerId = playerId;
-        
         IdentityResult? result = await _userManager.CreateAsync(user, signUpDto.Password);
-
-        if(!result.Succeeded) 
-            await _playerService.DeletePlayer(playerId);
 
         if (!result.Succeeded)
             if (result.Errors.ToList().Count > 0)
                 throw new ArgumentException(result.Errors.ToList()[0].Description);
             else
                 throw new ArgumentException("SignUp fail.");
-        
+
         return true;
     }
 
