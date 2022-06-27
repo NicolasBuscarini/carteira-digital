@@ -698,3 +698,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 .idea
+.vs
