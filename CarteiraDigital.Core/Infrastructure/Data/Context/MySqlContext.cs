@@ -11,5 +11,8 @@ namespace CarteiraDigital.Infrastructure.Data.Context
         }
 
         public DbSet<ApplicationUser> User { get; set; } = null!;
+        public DbSet<CofreModel> Cofre { get; set; } = null!;
+        public DbSet<CarteiraModel> Carteira { get; set; } = null!;
+        public DbSet<CartaoModel> Cartao { get; set; } = null!;
     }
 }
