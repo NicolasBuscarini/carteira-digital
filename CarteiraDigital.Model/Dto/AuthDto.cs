@@ -49,4 +49,7 @@ public class SignUpDto
     [Required(ErrorMessage = "Password is required")] public string Password { get; set; } = "123";
 
     [Required(ErrorMessage = "Password is required")] public string PasswordConfirm { get; set; } = "123";
+    
+    [Required(ErrorMessage = "CPF is required")] public string Cpf { get; set; } = "cpf";
+
 }

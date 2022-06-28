@@ -76,23 +76,14 @@ public class AuthService : IAuthService
         if (userExists != null)
             throw new ArgumentException("Username already exists!");
 
-        ApplicationUser user = new()
-        {
-            SecurityStamp = Guid.NewGuid().ToString(),
-            UserName = signUpDto.Username,
-            Email = signUpDto.Email,
-            PhoneNumber = signUpDto.PhoneNumber
-        };
+        ApplicationUser user = new(signUpDto.Username, signUpDto.Email, signUpDto.PhoneNumber, signUpDto.Cpf);
 
         IdentityResult? result = await _userManager.CreateAsync(user, signUpDto.Password);
 
-        if (!result.Succeeded)
-            if (result.Errors.ToList().Count > 0)
-                throw new ArgumentException(result.Errors.ToList()[0].Description);
-            else
-                throw new ArgumentException("SignUp fail.");
-
-        return true;
+        if (result.Succeeded) return true;
+        if (result.Errors.ToList().Count > 0)
+            throw new ArgumentException(result.Errors.ToList()[0].Description);
+        throw new ArgumentException("SignUp fail.");
     }
 
     public async Task<SsoDto> SignIn(SignInDto signInDto)
@@ -104,24 +95,20 @@ public class AuthService : IAuthService
         if (!await _userManager.CheckPasswordAsync(user, signInDto.Password))
             throw new ArgumentException("Password invalid.");
 
-        var userRoles = await _userManager.GetRolesAsync(user);
+        IList<string>? userRoles = await _userManager.GetRolesAsync(user);
 
-        var authClaims = new List<Claim>
+        List<Claim> authClaims = new()
         {
             new Claim(ClaimTypes.Name, user.UserName),
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Email, user.Email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
+        authClaims.AddRange(userRoles.Select(userRole => new Claim(ClaimTypes.Role, userRole)));
 
-        foreach (var userRole in userRoles)
-        {
-            authClaims.Add(new Claim(ClaimTypes.Role, userRole));
-        }
+        SymmetricSecurityKey authSigningKey = new(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 
-        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
-
-        var token = new JwtSecurityToken(
+        JwtSecurityToken token = new(
             issuer: _configuration["JWT:ValidIssuer"],
             audience: _configuration["JWT:ValidAudience"],
             expires: DateTime.Now.AddHours(3),
@@ -135,6 +122,13 @@ public class AuthService : IAuthService
     public async Task<ApplicationUser> GetCurrentUser()
     {
         ApplicationUser? user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext!.User);
+
+        return user;
+    }
+    
+    public async Task<ApplicationUser> GetUserByCpf(string cpf)
+    {
+        ApplicationUser user = await _userRepository.GetUserByCpf(cpf);
 
         return user;
     }

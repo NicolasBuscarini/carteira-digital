@@ -12,4 +12,5 @@ public interface IAuthService
     Task<bool> SignUp(SignUpDto signUpDto);
     Task<SsoDto> SignIn(SignInDto signInDto);
     Task<ApplicationUser> GetCurrentUser();
+    Task<ApplicationUser> GetUserByCpf(string cpf);
 }

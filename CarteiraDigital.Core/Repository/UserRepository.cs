@@ -19,4 +19,11 @@ public class UserRepository : GenericRepository<ApplicationUser, Guid>, IUserRep
 
         return list;
     }
+    
+    public async Task<ApplicationUser> GetUserByCpf(string cpf)
+    {
+        ApplicationUser user = await _context.User.Where(x => x.Cpf.Equals(cpf)).FirstAsync();
+
+        return user;
+    }
 }
